@@ -45,9 +45,15 @@ void monolithic_implementation()
   char *msg11 = "cold";
   char *msg12 = "comfortable";
   char *msg13 = "hot";
-  int font_number = 4;
+
+  // M5.Lcd.drawCentreString(const char *string, int dX, int poY, int font);
+  // Only font numbers 2,4,6,7 are valid. Font 6 only contains characters [space] 0 1 2 3 4 5 6 7 8 9 : . - a p m
+  // Font 7 is a 7 segment font and only contains characters [space] 0 1 2 3 4 5 6 7 8 9 : .
+  // see: https://github.com/m5stack/M5Stack/blob/master/examples/Advanced/Display/TFT_Clock/TFT_Clock.ino
+  int font = 4;
+
   float temperature = dht12.readTemperature();
-  
+
   Serial.print("Temperature: ");
   Serial.println(temperature);
   
@@ -57,19 +63,19 @@ void monolithic_implementation()
   if(temperature < -10.0)
   {
     strcpy(str, msg01);
-    font_number = 4;
+    font = 4;
   }
   else if(40.0 < temperature)
   {
     strcpy(str, msg02);
-    font_number = 4;
+    font = 4;
   }
   else
   {
     sprintf(str, "%.1f", temperature);
-    font_number = 7; // 7-seg LED
+    font = 7;
   }
-  M5.Lcd.drawCentreString(str, 160, 80, font_number); // string, x position, y position, font number
+  M5.Lcd.drawCentreString(str, 160, 80, font);
   
   if(temperature < 20.0)
   {
@@ -83,7 +89,7 @@ void monolithic_implementation()
   {
     strcpy(str, msg12);
   }
-  M5.Lcd.drawCentreString(str, 160, 144, 4); // string, x position, y position, font number
+  M5.Lcd.drawCentreString(str, 160, 144, 4);
 }
 
 void setup() {
