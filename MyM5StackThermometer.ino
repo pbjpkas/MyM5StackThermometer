@@ -23,8 +23,8 @@ The preset scale is FAHRENHEIT and ID is 0x53.
 #include "DHT12.h"
 #include <Wire.h>     //The DHT12 uses I2C comunication.
 DHT12 dht12;          //Preset scale CELSIUS and ID 0x5c.
-//#line 27 "MyM5StackThermometer.ino"
-//#include <AUnit.h>
+#line 27 "MyM5StackThermometer.ino"
+#include <AUnit.h>
 
 #define STRLEN  32
 
@@ -94,13 +94,55 @@ void monolithic_implementation()
   M5.Lcd.drawCentreString(str, 160, 144, 4);
 }
 
+char *genMessageStr(float temperature)
+{
+  return msg01;
+}
+
 void setup() {
   M5.begin();
   Wire.begin();
   Serial.begin(115200);
+  aunit::TestRunner::setTimeout(0); // A timeout value of 0 means an infinite timeout.
 }
 
 void loop() {
-  monolithic_implementation();
+  //monolithic_implementation();
+  aunit::TestRunner::run();
   delay(2000);
+}
+
+test(genMessageStr_150)
+{
+  assertEqual(0, strcmp(genMessageStr(15.0f),msg11));
+}
+
+test(genMessageStr_199)
+{
+  assertEqual(0, strcmp(genMessageStr(19.9f),msg11));
+}
+
+test(genMessageStr_200)
+{
+  assertEqual(0, strcmp(genMessageStr(20.0f),msg12));
+}
+
+test(genMessageStr_225)
+{
+  assertEqual(0, strcmp(genMessageStr(22.5f),msg12));
+}
+
+test(genMessageStr_250)
+{
+  assertEqual(0, strcmp(genMessageStr(25.0f),msg12));
+}
+
+test(genMessageStr_251)
+{
+  assertEqual(0, strcmp(genMessageStr(25.1f),msg13));
+}
+
+test(genMessageStr_300)
+{
+  assertEqual(0, strcmp(genMessageStr(30.0f),msg13));
 }
