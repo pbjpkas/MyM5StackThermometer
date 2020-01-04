@@ -37,14 +37,16 @@ DHT12 dht12;          //Preset scale CELSIUS and ID 0x5c.
 #define OSD_BG_COLOR TFT_WHITE
 #define OSD_FG_COLOR TFT_GREEN
 
+//message strings
+#define msg01 "under -10.0"
+#define msg02 "over 40.0"
+#define msg11 "cold"
+#define msg12 "comfortable"
+#define msg13 "hot"
+
 void monolithic_implementation()
 {
   char str[STRLEN] = {'\0'};
-  char *msg01 = "under -10.0";
-  char *msg02 = "over 40.0";
-  char *msg11 = "cold";
-  char *msg12 = "comfortable";
-  char *msg13 = "hot";
 
   // M5.Lcd.drawCentreString(const char *string, int dX, int poY, int font);
   // Only font numbers 2,4,6,7 are valid. Font 6 only contains characters [space] 0 1 2 3 4 5 6 7 8 9 : . - a p m
