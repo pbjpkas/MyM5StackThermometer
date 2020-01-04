@@ -96,7 +96,18 @@ void monolithic_implementation()
 
 char *genMessageStr(float temperature)
 {
-  return msg01;
+  if(temperature < 20.0)
+  {
+    return msg11;
+  }
+  else if(25.0 < temperature)
+  {
+    return msg13;
+  }
+  else
+  {
+    return msg12;
+  }
 }
 
 void setup() {
