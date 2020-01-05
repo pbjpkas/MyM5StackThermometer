@@ -100,13 +100,13 @@ void monolithic_implementation()
   M5.Lcd.drawCentreString(str, 160, 144, 4);
 }
 
-char *genMessageStr(float temperature)
+char *genMessageStr(float fTemperature)
 {
-  if(temperature < 20.0)
+  if(fTemperature < 20.0)
   {
     return msg_11;
   }
-  else if(25.0 < temperature)
+  else if(25.0 < fTemperature)
   {
     return msg_13;
   }
@@ -116,34 +116,30 @@ char *genMessageStr(float temperature)
   }
 }
 
-char *genTemperatureStr(float temperature)
+char *genTemperatureStr(float fTemperature)
 {
   static char str[STRLEN] = {'\0'};
 
-  if(temperature < -10.0)
+  if(fTemperature < -10.0)
   {
     return msg_01;
   }
-  else if(40.0 < temperature)
+  else if(40.0 < fTemperature)
   {
     return msg_02;
   }
   else
   {
-    sprintf(str, "%.1f", temperature);
+    sprintf(str, "%.1f", fTemperature);
     return str;
   }
 }
 
-void drawStr(char *temperatureStr, char *messageStr)
+void drawStr(char *sTemperature, char *sMessage)
 {
   int font = 4;
   
-  if( !strcmp( msg_01, temperatureStr) )
-  {
-    font = 4;
-  }
-  else if( !strcmp( msg_02, temperatureStr) )
+  if( !strcmp(msg_01, sTemperature) || !strcmp(msg_02, sTemperature) )
   {
     font = 4;
   }
@@ -152,8 +148,8 @@ void drawStr(char *temperatureStr, char *messageStr)
     font = 7;
   }
   M5.Lcd.fillRect(OSD_X, OSD_Y, OSD_W, OSD_H, OSD_BG_COLOR);
-  M5.Lcd.drawCentreString(temperatureStr, 160, 80, font);
-  M5.Lcd.drawCentreString(messageStr, 160, 144, 4);
+  M5.Lcd.drawCentreString(sTemperature, 160, 80, font);
+  M5.Lcd.drawCentreString(sMessage, 160, 144, 4);
 }
 
 void myM5StackThermometer()
