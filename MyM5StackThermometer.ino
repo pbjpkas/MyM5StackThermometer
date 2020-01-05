@@ -110,6 +110,11 @@ char *genMessageStr(float temperature)
   }
 }
 
+char *genTemperatureStr(float temperature)
+{
+  return MSG_11;
+}
+
 void setup() {
   M5.begin();
   Wire.begin();
@@ -156,4 +161,65 @@ test(genMessageStr_251)
 test(genMessageStr_300)
 {
   assertEqual(0, strcmp(genMessageStr(30.0f), MSG_13));
+}
+
+//genTemperatureStr
+test(genTemperatureStr_m200)
+{
+  assertEqual(0, strcmp(genTemperatureStr(-20.0f), MSG_01));
+}
+
+test(genTemperatureStr_m150)
+{
+  assertEqual(0, strcmp(genTemperatureStr(-15.0f), MSG_01));
+}
+
+test(genTemperatureStr_m101)
+{
+  assertEqual(0, strcmp(genTemperatureStr(-10.1f), MSG_01));
+}
+
+test(genTemperatureStr_m100)
+{
+  assertEqual(0, strcmp(genTemperatureStr(-10.0f), "-10.0"));
+}
+
+test(genTemperatureStr_m050)
+{
+  assertEqual(0, strcmp(genTemperatureStr(-5.0f), "-5.0"));
+}
+
+test(genTemperatureStr_m001)
+{
+  assertEqual(0, strcmp(genTemperatureStr(-0.1f), "-0.1"));
+}
+
+test(genTemperatureStr_000)
+{
+  assertEqual(0, strcmp(genTemperatureStr(0.0f), "0.0"));
+}
+
+test(genTemperatureStr_225)
+{
+  assertEqual(0, strcmp(genTemperatureStr(22.5f), "22.5"));
+}
+
+test(genTemperatureStr_400)
+{
+  assertEqual(0, strcmp(genTemperatureStr(40.0f), "40.0"));
+}
+
+test(genTemperatureStr_401)
+{
+  assertEqual(0, strcmp(genTemperatureStr(40.1f), MSG_02));
+}
+
+test(genTemperatureStr_500)
+{
+  assertEqual(0, strcmp(genTemperatureStr(50.0f), MSG_02));
+}
+
+test(genTemperatureStr_600)
+{
+  assertEqual(0, strcmp(genTemperatureStr(60.0f), MSG_02));
 }
