@@ -23,8 +23,12 @@ The preset scale is FAHRENHEIT and ID is 0x53.
 #include "DHT12.h"
 #include <Wire.h>     //The DHT12 uses I2C comunication.
 DHT12 dht12;          //Preset scale CELSIUS and ID 0x5c.
-#line 27 "MyM5StackThermometer.ino"
-#include <AUnit.h>
+
+#define ENABLE_UT 0
+#if ENABLE_UT
+  #line 30 "MyM5StackThermometer.ino"
+  #include <AUnit.h>
+#endif
 
 #define STRLEN  32
 
@@ -133,15 +137,21 @@ void setup() {
   M5.begin();
   Wire.begin();
   Serial.begin(115200);
+#if ENABLE_UT
   aunit::TestRunner::setTimeout(0); // A timeout value of 0 means an infinite timeout.
+#endif
 }
 
 void loop() {
-  //monolithic_implementation();
+#if ENABLE_UT
   aunit::TestRunner::run();
+#else
+  monolithic_implementation();
   delay(2000);
+#endif
 }
 
+#if ENABLE_UT
 // UT:genMessageStr
 test(genMessageStr_150)
 {
@@ -238,3 +248,5 @@ test(genTemperatureStr_600)
 {
   assertEqual(0, strcmp(genTemperatureStr(60.0f), MSG_02));
 }
+
+#endif //ENABLE_UT
