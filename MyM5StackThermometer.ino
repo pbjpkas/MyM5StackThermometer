@@ -112,7 +112,21 @@ char *genMessageStr(float temperature)
 
 char *genTemperatureStr(float temperature)
 {
-  return MSG_11;
+  static char str[STRLEN] = {'\0'};
+
+  if(temperature < -10.0)
+  {
+    return MSG_01;
+  }
+  else if(40.0 < temperature)
+  {
+    return MSG_02;
+  }
+  else
+  {
+    sprintf(str, "%.1f", temperature);
+    return str;
+  }
 }
 
 void setup() {
@@ -128,6 +142,7 @@ void loop() {
   delay(2000);
 }
 
+// UT:genMessageStr
 test(genMessageStr_150)
 {
   assertEqual(0, strcmp(genMessageStr(15.0f), MSG_11));
@@ -163,7 +178,7 @@ test(genMessageStr_300)
   assertEqual(0, strcmp(genMessageStr(30.0f), MSG_13));
 }
 
-//genTemperatureStr
+// UT:genTemperatureStr
 test(genTemperatureStr_m200)
 {
   assertEqual(0, strcmp(genTemperatureStr(-20.0f), MSG_01));
