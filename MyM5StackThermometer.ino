@@ -18,7 +18,7 @@ the preset scale is KELVIN and ID is 0x5c.
 The preset scale is FAHRENHEIT and ID is 0x53.
 */
 #include <stdio.h>  //sprintf
-#include <string.h> //strcpy
+#include <string.h> //strcpy, strcmp
 #include <M5Stack.h>
 #include "DHT12.h"
 #include <Wire.h>     //The DHT12 uses I2C comunication.
@@ -38,11 +38,11 @@ DHT12 dht12;          //Preset scale CELSIUS and ID 0x5c.
 #define OSD_FG_COLOR TFT_GREEN
 
 //message strings
-#define msg01 "under -10.0"
-#define msg02 "over 40.0"
-#define msg11 "cold"
-#define msg12 "comfortable"
-#define msg13 "hot"
+#define MSG_01 "under -10.0"
+#define MSG_02 "over 40.0"
+#define MSG_11 "cold"
+#define MSG_12 "comfortable"
+#define MSG_13 "hot"
 
 void monolithic_implementation()
 {
@@ -64,12 +64,12 @@ void monolithic_implementation()
   
   if(temperature < -10.0)
   {
-    strcpy(str, msg01);
+    strcpy(str, MSG_01);
     font = 4;
   }
   else if(40.0 < temperature)
   {
-    strcpy(str, msg02);
+    strcpy(str, MSG_02);
     font = 4;
   }
   else
@@ -81,15 +81,15 @@ void monolithic_implementation()
   
   if(temperature < 20.0)
   {
-    strcpy(str, msg11);
+    strcpy(str, MSG_11);
   }
   else if(25.0 < temperature)
   {
-    strcpy(str, msg13);
+    strcpy(str, MSG_13);
   }
   else
   {
-    strcpy(str, msg12);
+    strcpy(str, MSG_12);
   }
   M5.Lcd.drawCentreString(str, 160, 144, 4);
 }
@@ -98,15 +98,15 @@ char *genMessageStr(float temperature)
 {
   if(temperature < 20.0)
   {
-    return msg11;
+    return MSG_11;
   }
   else if(25.0 < temperature)
   {
-    return msg13;
+    return MSG_13;
   }
   else
   {
-    return msg12;
+    return MSG_12;
   }
 }
 
@@ -125,35 +125,35 @@ void loop() {
 
 test(genMessageStr_150)
 {
-  assertEqual(0, strcmp(genMessageStr(15.0f),msg11));
+  assertEqual(0, strcmp(genMessageStr(15.0f), MSG_11));
 }
 
 test(genMessageStr_199)
 {
-  assertEqual(0, strcmp(genMessageStr(19.9f),msg11));
+  assertEqual(0, strcmp(genMessageStr(19.9f), MSG_11));
 }
 
 test(genMessageStr_200)
 {
-  assertEqual(0, strcmp(genMessageStr(20.0f),msg12));
+  assertEqual(0, strcmp(genMessageStr(20.0f), MSG_12));
 }
 
 test(genMessageStr_225)
 {
-  assertEqual(0, strcmp(genMessageStr(22.5f),msg12));
+  assertEqual(0, strcmp(genMessageStr(22.5f), MSG_12));
 }
 
 test(genMessageStr_250)
 {
-  assertEqual(0, strcmp(genMessageStr(25.0f),msg12));
+  assertEqual(0, strcmp(genMessageStr(25.0f), MSG_12));
 }
 
 test(genMessageStr_251)
 {
-  assertEqual(0, strcmp(genMessageStr(25.1f),msg13));
+  assertEqual(0, strcmp(genMessageStr(25.1f), MSG_13));
 }
 
 test(genMessageStr_300)
 {
-  assertEqual(0, strcmp(genMessageStr(30.0f),msg13));
+  assertEqual(0, strcmp(genMessageStr(30.0f), MSG_13));
 }
