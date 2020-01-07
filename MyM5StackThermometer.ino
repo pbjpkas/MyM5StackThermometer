@@ -100,6 +100,14 @@ void monolithic_implementation()
   M5.Lcd.drawCentreString(str, 160, 144, 4);
 }
 
+void initDisplay()
+{
+  M5.Lcd.fillRect(0, 0, 320, 240, OSD_BG_COLOR);
+  M5.Lcd.setTextColor(TFT_BLUE);
+  M5.Lcd.drawCentreString("MyM5Stack Thermometer by ka's", 160, 220, 2);
+  M5.Lcd.setTextColor(TFT_GREEN);
+}
+
 char *genMessageStr(float fTemperature)
 {
   if(fTemperature < 20.0)
@@ -167,14 +175,6 @@ void myM5StackThermometer()
   strcpy(sMessage,     genMessageStr(fTemperature));
 
   drawStr(sTemperature, sMessage);
-}
-
-void initDisplay()
-{
-  M5.Lcd.fillRect(0, 0, 320, 240, OSD_BG_COLOR);
-  M5.Lcd.setTextColor(TFT_BLUE);
-  M5.Lcd.drawCentreString("MyM5Stack Thermometer by ka's", 160, 220, 2);
-  M5.Lcd.setTextColor(TFT_GREEN);
 }
 
 void setup() {
