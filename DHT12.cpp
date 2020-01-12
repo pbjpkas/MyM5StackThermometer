@@ -34,13 +34,13 @@ float DHT12::readTemperature(uint8_t scale)
 	float resultado=0;
 	uint8_t error=read();
 	if (error!=0) return (float)error/100;
-  
-  resultado=datos[2]+(float)(datos[3]&0x7f)/10;
-  if(datos[3]&0x80)
-  {
-    resultado = -resultado;
-  }
-  
+	
+	resultado=datos[2]+(float)(datos[3]&0x7f)/10;
+	if(datos[3]&0x80)
+	{
+		resultado = -resultado;
+	}
+	
 	if (scale==0) scale=_scale;
 	switch(scale) {
 		case FAHRENHEIT:
@@ -49,8 +49,8 @@ float DHT12::readTemperature(uint8_t scale)
 		case KELVIN:
 			resultado=resultado+273.15;
 			break;
-    default:
-      break;
+		default:
+			break;
 	};
 	return resultado;
 }
